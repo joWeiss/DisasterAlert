@@ -129,13 +129,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           } else if (this.get('page') === 'list') {
             // this.$.listView.load();
           }
-          console.log('select')
         }, 50, this);
       },
 
       _routePageChanged: function(page) {
         if (this.get('page') !== page) {
-          if (page && (page !== 'map' || page !== 'list')) {
+          if (page && page !== 'map' && page !== 'list') {
             this.set('page', 'my404');
           } else {
             this.set('page', page || 'map');

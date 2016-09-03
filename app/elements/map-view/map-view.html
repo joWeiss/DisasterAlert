@@ -51,7 +51,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (!this.get('map')) {
             var map = L.map('map', {
               center: [20, 0],
-              zoom: 2
+              zoom: 2,
+              tap: false
             });
 
             this.set('map', map);
