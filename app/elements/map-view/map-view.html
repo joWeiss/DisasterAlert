@@ -15,9 +15,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+        height: 100%;
+        width: 100%;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <div id="map"></div>
   </template>
   <script>
   (function() {
@@ -27,11 +33,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'map-view',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'map-view',
-          notify: true
+        map: {
+          type: Object
         }
+      },
+
+      attached: function() {
+        L.Icon.Default.imagePath = '/bower_components/leaflet/dist/images';
+        this.async(function() {
+          var map = L.map('map', {
+            center: [20, 0],
+            zoom: 2
+          });
+
+          this.set('map', map);
+          var tileLayer = L.tileLayer(
+            'http://{s}.{base}.maps.cit.api.here.com/maptile/2.1/{type}/{mapID}/' +
+            '{scheme}/{z}/{x}/{y}/{size}/{format}?app_id={app_id}&' +
+            'app_code={app_code}&lg={language}', {
+            attribution: 'Map &copy; 2016 <a href="http://developer.here.com">HERE</a>',
+            subdomains: '1234',
+            base: 'base',
+            type: 'maptile',
+            scheme: 'pedestrian.day',
+            app_id: 'PbV33gWGOUmHwQMT3xvv',
+            app_code: 'tnpYQugNQTrBAjEi9r4KcQ',
+            mapID: 'newest',
+            maxZoom: 20,
+            language: 'eng',
+            format: 'png8',
+            size: '256'
+          });
+          this.get('map').addLayer(tileLayer);
+        }, 50, this);
       }
     });
   })();

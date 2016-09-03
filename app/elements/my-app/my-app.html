@@ -49,6 +49,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
         --paper-input-container-color: #fff;
       }
+      iron-pages {
+        height: 100%;
+      }
     </style>
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -61,7 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer>
         drawer-content
       </app-drawer>
-      <app-header-layout>
+      <app-header-layout has-scrolling-region>
         <app-header fixed condenses effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
@@ -73,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-tabs>
         </app-header>
 
-        <iron-pages selected="[[selected]]" role="main">
+        <iron-pages selected="[[selected]]">
           <map-view></map-view>
           <list-view></list-view>
         </iron-pages>
