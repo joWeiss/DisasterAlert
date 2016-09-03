@@ -14,6 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="earthquakes-presenter">
   <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
     <iron-meta id="meta"></iron-meta>
     <iron-signals id="signals"></iron-signals>
   </template>
@@ -54,19 +61,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.get('map').removeLayer(marker);
         }, this);
         this.set('markers', _.map(this.$.meta.byKey('earthquakes'), function(earthquake) {
-          return L.marker(
+          return L.circleMarker(
             [earthquake.latitude, earthquake.longitude],
             {
-              icon: this.icon,
+              color: '#D32F2F',
+              fillColor: '#F44336',
+              fillOpacity: 0.8,
+              radius: earthquake.magnitude * 2,
               title: earthquake.title,
               alt: earthquake.title,
-              opacity: 1,
-              fillOpacity: 1,
-              riseOnHover: true
+              riseOnHover: true,
+              originalObject: earthquake
             }
           );
         }, this));
+        var that = this;
         _.each(this.get('markers'), function(marker) {
+          marker.on('click', function(event) {
+            that.fire('iron-signal', {
+              name: 'show-earthquake-info-dialog',
+              data: {earthquake: this.options.originalObject}
+            });
+          });
           this.get('map').addLayer(marker);
         }, this);
       }

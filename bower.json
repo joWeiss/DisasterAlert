@@ -13,10 +13,14 @@
     "iron-selector": "PolymerElements/iron-selector#^1.5.2",
     "leaflet": "^0.7.7",
     "vaadin-grid": "^1.1.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "moment": "^2.14.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
-  "ignore": []
+  "ignore": [],
+  "resolutions": {
+    "moment": "^2.14.1"
+  }
 }

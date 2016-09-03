@@ -25,11 +25,9 @@ window.MyBehaviors.DisplayOptionsMetaBehavior = {
   },
 
   _tryToUpdate: function() {
-    if (this.get('visible')) {
-      this.debounce('update-' + this.get('name') + 's', function() {
-        this.$.ajax.generateRequest();
-      }, 750, this);
-    }
+    this.debounce('update-' + this.get('name') + 's', function() {
+      this.$.ajax.generateRequest();
+    }, 750, this);
   },
 
   _onResponseError: function() {

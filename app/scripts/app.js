@@ -7,6 +7,24 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+_.mixin({
+  coordinatesToHumanReadable: function(location, floatingNumbers) {
+    floatingNumbers = typeof floatingNumbers !== 'undefined' ? floatingNumbers : 4;
+    var str = '';
+    if (location.latitude >= 0) {
+      str += location.latitude.toFixed(floatingNumbers) + '°N ';
+    } else {
+      str += Math.abs(location.latitude).toFixed(floatingNumbers) + '°S ';
+    }
+    if (location.longitude >= 0) {
+      str += location.longitude.toFixed(floatingNumbers) + '°E';
+    } else {
+      str += Math.abs(location.longitude).toFixed(floatingNumbers) + '°W';
+    }
+    return str;
+  }
+});
+
 (function(document) {
   'use strict';
 
