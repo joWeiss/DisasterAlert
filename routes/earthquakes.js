@@ -21,17 +21,18 @@ router.use('/', function (req, res, next) {
 })
 
 router.get('/all', function (req, res) {
-  let options = {
-      method: 'get',
-      url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson'
-    }
-    request(options, function (err, response, body) {
-      if (err) {
-        res.status(500).send(err)
-      } else {
-        res.status(200).send(body)
-      }
-    })
+  //let options = {
+      //method: 'get',
+      //url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson'
+    //}
+    //request(options, function (err, response, body) {
+      //if (err) {
+        //res.status(500).send(err)
+      //} else {
+        //res.status(200).send(body)
+      //}
+    //})
+  res.status(200).send({'quantity': 0})
 })
 
 router.get('/bydist', function (req, res) {
