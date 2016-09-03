@@ -4,6 +4,8 @@ var router = express.Router();
 
 var request = require('request')
 
+var earthquakeDB = require('../scripts/earthquakeDB.js')
+
 module.exports = router;
 
 // middleware that is specific to this router
@@ -21,17 +23,7 @@ router.use('/', function (req, res, next) {
 })
 
 router.get('/all', function (req, res) {
-  //let options = {
-      //method: 'get',
-      //url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson'
-    //}
-    //request(options, function (err, response, body) {
-      //if (err) {
-        //res.status(500).send(err)
-      //} else {
-        //res.status(200).send(body)
-      //}
-    //})
+  earthquakeDB.find(req.query.id)
   res.status(200).send({'quantity': 0})
 })
 
