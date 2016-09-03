@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fallback = require('express-history-api-fallback');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,10 +21,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build/bundled')));
+var root;
+if (process.env.NODE_ENV === 'development') {
+  root = path.join(__dirname, '/app');
+} else {
+  root = path.join(__dirname, '/dist');
+}
+app.use(express.static(root));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.use(fallback('index.html', { root: root }))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
