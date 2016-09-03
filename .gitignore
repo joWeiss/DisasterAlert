@@ -5,3 +5,5 @@ build
 .tmp
 .publish/
 *.iml
+.fnmrc
+**/.tern-port
