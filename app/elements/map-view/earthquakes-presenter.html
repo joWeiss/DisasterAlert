@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-meta/iron-meta.html">
+<link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
+
+<dom-module id="earthquakes-presenter">
+  <template>
+    <iron-meta id="meta"></iron-meta>
+    <iron-signals id="signals"></iron-signals>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'earthquakes-presenter',
+
+      properties: {
+        map: {
+          type: Object
+        },
+        icon: {
+          type: Object
+        },
+        markers: {
+          type: Array
+        }
+      },
+
+      listeners: {
+        'signals.iron-signal-earthquakes-changed': 'onChangeSignal'
+      },
+
+      attached: function() {
+         this.icon = L.icon({
+           iconUrl: 'images/earthquake.png',
+           iconSize: [32, 37],
+           iconAnchor: [16, 36],
+           popupAnchor: [0, -25]
+         });
+      },
+
+      onChangeSignal: function() {
+        _.each(this.get('markers'), function(marker) {
+          this.get('map').removeLayer(marker);
+        }, this);
+        this.set('markers', _.map(this.$.meta.byKey('earthquakes'), function(earthquake) {
+          return L.marker(
+            [earthquake.latitude, earthquake.longitude],
+            {
+              icon: this.icon,
+              title: earthquake.title,
+              alt: earthquake.title,
+              opacity: 1,
+              fillOpacity: 1,
+              riseOnHover: true
+            }
+          );
+        }, this));
+        _.each(this.get('markers'), function(marker) {
+          this.get('map').addLayer(marker);
+        }, this);
+      }
+    });
+  })();
+  </script>
+</dom-module>

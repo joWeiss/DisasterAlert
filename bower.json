@@ -12,7 +12,8 @@
     "app-layout": "PolymerElements/app-layout#0.10.2",
     "iron-selector": "PolymerElements/iron-selector#^1.5.2",
     "leaflet": "^0.7.7",
-    "vaadin-grid": "^1.1.1"
+    "vaadin-grid": "^1.1.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

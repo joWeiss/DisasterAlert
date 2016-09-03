@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="earthquakes-presenter.html">
 
 <dom-module id="map-view">
   <template>
@@ -24,6 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div id="map"></div>
+    <earthquakes-presenter map="[[map]]"></earthquakes-presenter>
   </template>
   <script>
   (function() {
