@@ -23,6 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../map-view/map-view.html">
+<link rel="import" href="../list-view/list-view.html">
 
 <dom-module id="my-app">
   <template>
@@ -59,18 +62,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         drawer-content
       </app-drawer>
       <app-header-layout>
-        <app-header fixed condenses>
+        <app-header fixed condenses effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
             <div main-title>Disaster Alert</div>
           </app-toolbar>
-          <paper-tabs selected="0" sticky class="flex">
+          <paper-tabs selected="{{selected}}" sticky class="flex">
             <paper-tab><iron-icon icon="maps:map"></iron-icon></paper-tab>
             <paper-tab><iron-icon icon="view-list"></iron-icon></paper-tab>
           </paper-tabs>
         </app-header>
 
-        main content
+        <iron-pages selected="[[selected]]" role="main">
+          <map-view></map-view>
+          <list-view></list-view>
+        </iron-pages>
 
       </app-header-layout>
     </app-drawer-layout>
@@ -80,7 +86,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     'use strict';
 
     Polymer({
-      is: 'my-app'
+      is: 'my-app',
+
+      properties: {
+        selected: {
+          type: Number,
+          notify: true,
+          value: 0
+        }
+      }
     });
   })();
   </script>
