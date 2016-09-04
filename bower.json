@@ -14,13 +14,16 @@
     "leaflet": "^0.7.7",
     "vaadin-grid": "^1.1.1",
     "underscore": "^1.8.3",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "paper-datatable": "^0.9.8"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
   "ignore": [],
   "resolutions": {
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "polymer": "^1.6.0",
+    "paper-styles": "^1.0.0"
   }
 }
