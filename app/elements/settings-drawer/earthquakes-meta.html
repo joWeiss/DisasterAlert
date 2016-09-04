@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <iron-ajax id="ajax"
                handle-as="json"
-               url="/earthquakes.json"
+               url="/api/earthquakes"
                on-response="_onResponseSuccess"
                on-error="_onResponseError"
                debounce-duration="300"></iron-ajax>
