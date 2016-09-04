@@ -79,6 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               size: '256'
             });
             this.get('map').addLayer(tileLayer);
+            this.fire('iron-signal', {name: 'map-ready'});
           }
         }, 50, this);
       }
