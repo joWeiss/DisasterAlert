@@ -6,9 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fallback = require('express-history-api-fallback');
 require('./database.js')
-var EarthquakeSchema = require('./schemas/earthquakeSchema.js')
+require('./schemas/earthquakeSchema.js')
 
-var earthquakes = require('./routes/earthquakes');
+var earthquakedShips = require('./routes/ships-affected-by-earthquakes');
+var hurricanes = require('./routes/hurricanes');
 
 var app = express();
 
@@ -30,7 +31,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.static(root));
 
-app.use('/api/earthquakes', earthquakes);
+app.use('/api/hurricanes', hurricanes);
+app.use('/api/ships-affected-by-earthquakes', earthquakedShips);
 
 app.use(fallback('index.html', { root: root }))
 

@@ -34,9 +34,9 @@ function collectDailyEqs () {
 // TODO get a better place for this
 dailyEarthquakesJob.start();
 
-router.get('/all', find);
+router.get('/', find);
 
-router.get('/update', function (req, res) {
+router.get('/_update', function (req, res) {
   let options = {
       method: 'get',
       //url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.geojson'
