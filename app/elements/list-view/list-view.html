@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../ship-info-dialog/ship-info-dialog.html">
 
 
@@ -24,6 +25,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #grid {
         height: 100%;
       }
+      .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
     </style>
 
     <iron-ajax id="ajax"
@@ -31,7 +37,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                url="/api/ships-affected-by-earthquakes"
                on-response="_onResponseSuccess"
                on-error="_onResponseError"
+               loading="{{loading}}"
                debounce-duration="300"></iron-ajax>
+
+    <template is="dom-if" if="[[loading]]">
+        <paper-spinner
+            class="spinner"
+            alt="Loading weather report"
+            active></paper-spinner>
+    </template>
 
     <paper-datatable data="{{ships}}" id="table">
       <paper-datatable-column header="Name" property="name" sortable>
@@ -87,7 +101,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onResponseError: function() {
-        this.fire('show-toast', {message: 'Couldn\'t load ships affected data.'});
+        this.fire('iron-signal', {
+          name: 'show-toast',
+          data: {message: 'Couldn\'t load ships affected data.'}
+        });
       },
 
       onRowTap: function(event, obj) {

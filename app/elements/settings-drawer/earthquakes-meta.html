@@ -45,7 +45,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _onResponseSuccess: function(event) {
         if (!event.detail.response || !event.detail.response) {
           this._delete();
-          this.fire('show-toast', {message: 'Couldn\'t load ' + this.get('name') + 's data.'});
+          this.fire('iron-signal', {
+            name: 'show-toast',
+            data: {message: 'Couldn\'t load ' + this.get('name') + 's data.'}
+          });
         } else {
           this._update(event.detail.response);
         }

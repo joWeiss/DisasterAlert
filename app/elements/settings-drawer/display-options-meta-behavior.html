@@ -32,7 +32,10 @@ window.MyBehaviors.DisplayOptionsMetaBehavior = {
 
   _onResponseError: function() {
     this._delete();
-    this.fire('show-toast', {message: 'Couldn\'t load ' + this.get('name') + 's data.'});
+    this.fire('iron-signal', {
+      name: 'show-toast',
+      data: {message: 'Couldn\'t load ' + this.get('name') + 's data.'}
+    });
   },
 
   _delete: function() {

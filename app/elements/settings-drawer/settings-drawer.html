@@ -27,9 +27,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <earthquakes-meta visible="[[earthquakes]]"></earthquakes-meta>
     <hurricanes-meta visible="[[hurricanes]]"></hurricanes-meta>
-    <paper-toggle-button name="Earthquakes" checked="{{earthquakes}}">Earthquakes</paper-toggle-button>
-    <paper-toggle-button name="Hurricanes" checked="{{hurricanes}}">Hurricanes</paper-toggle-button>
-    <paper-toggle-button name="Tsunami" checked="{{tsunami}}">Tsunami</paper-toggle-button>
+    <paper-toggle-button name="Earthquakes" checked="{{earthquakes}}">
+      Earthquakes
+    </paper-toggle-button>
+    <paper-toggle-button name="Hurricanes" checked="{{hurricanes}}">
+      Hurricanes
+    </paper-toggle-button>
+
   </template>
   <script>
   (function() {
@@ -45,11 +49,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true
         },
         hurricanes: {
-          type: Boolean,
-          value: true,
-          notify: true
-        },
-        tsunami: {
           type: Boolean,
           value: true,
           notify: true

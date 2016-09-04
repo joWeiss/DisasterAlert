@@ -26,8 +26,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         white-space: normal;
       }
       iron-image {
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 300px;
+      }
+      h4{
+        margin-top: 4px;
+        margin-bottom: 4px;
+        display: inline-block;
       }
     </style>
     <paper-dialog id="dialog" auto-fit-on-attach>
@@ -40,7 +45,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           sizing="contain"
           placeholder="./images/ship-placeholder.jpg">
         </iron-image>
-        <div>[[ship.coordinates]]</div>
+        <div><h4>[[ship.coordinates]]</h4></div>
+        <div><h4>Type:</h4> [[ship.shipType]]</div>
+        <div><h4>Dimensions:</h4> [[ship.dimensions]]</div>
+        <div><h4>Destination port:</h4> [[ship.destination]]</div>
+        <div><h4>Destination locode:</h4> [[ship.destinationLocode]]</div>
+        <div><h4>Destination country:</h4> [[ship.destinationCountry]]</div>
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
@@ -79,10 +89,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'https://images.vesseltracker.com/images/vessels/midres/' +
           this.get('ship.imo') +'.jpg';
         this.$.dialog.open()
-      },
-
-      displayDate: function(ship) {
-        return moment(ship.time, 'x').format('D.M.YYYY HH:mm') + ' [UTC]';
       }
     });
   })();
