@@ -25,7 +25,7 @@ window.MyBehaviors.HurricanesBehavior = {
             return L.circle(latlng, 2);
           },
           style: function (feature) {
-            var obj = {}
+            var obj = {};
             if (feature.geometry.type === 'Polygon') {
               obj.color = 'orange';
               obj.weight = 2;

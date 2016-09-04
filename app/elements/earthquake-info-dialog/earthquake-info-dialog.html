@@ -24,14 +24,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       h2 {
         white-space: normal;
       }
+      h4 {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        display: inline-block;
+      }
     </style>
     <paper-dialog id="dialog" auto-fit-on-attach>
       <h2>[[earthquake.title]]</h2>
       <div>
-        <div>[[displayCoordinates(earthquake)]]</div>
-        <div>[[displayDate(earthquake)]]</div>
-        <div>Magnitude: [[earthquake.magnitude]]</div>
-        <div>Depth: [[earthquake.depth]]</div>
+        <div><h4>[[displayCoordinates(earthquake)]]</h4></div>
+        <div><h4>[[displayDate(earthquake)]]</h4></div>
+        <div><h4>Magnitude:</h4> [[earthquake.magnitude]]</div>
+        <div><h4>Depth:</h4> [[earthquake.depth]]</div>
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
