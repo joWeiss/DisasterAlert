@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="earthquakes-meta.html">
+<link rel="import" href="hurricanes-meta.html">
 
 <dom-module id="settings-drawer">
   <template>
@@ -25,6 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <earthquakes-meta visible="[[earthquakes]]"></earthquakes-meta>
+    <hurricanes-meta visible="[[hurricanes]]"></hurricanes-meta>
     <paper-toggle-button name="Earthquakes" checked="{{earthquakes}}">Earthquakes</paper-toggle-button>
     <paper-toggle-button name="Hurricanes" checked="{{hurricanes}}">Hurricanes</paper-toggle-button>
     <paper-toggle-button name="Tsunami" checked="{{tsunami}}">Tsunami</paper-toggle-button>

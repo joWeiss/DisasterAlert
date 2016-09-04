@@ -35,9 +35,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         map: {
           type: Object
         },
-        icon: {
-          type: Object
-        },
         markers: {
           type: Array
         }
@@ -45,15 +42,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'signals.iron-signal-earthquakes-changed': 'onChangeSignal'
-      },
-
-      attached: function() {
-         this.icon = L.icon({
-           iconUrl: 'images/earthquake.png',
-           iconSize: [32, 37],
-           iconAnchor: [16, 36],
-           popupAnchor: [0, -25]
-         });
       },
 
       onChangeSignal: function() {
