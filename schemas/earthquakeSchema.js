@@ -2,7 +2,7 @@
 var mongoose = require('mongoose')
 // define our db schema for earthquakes
 let EarthquakeSchema = new mongoose.Schema({
-    eqID      : String,
+    simpleid  : String,
     title     : String,
     longitude : {type: Number, index: true},
     latitude  : {type: Number, index: true},
