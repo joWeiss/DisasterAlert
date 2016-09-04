@@ -5,9 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fallback = require('express-history-api-fallback');
+require('./database.js')
+var EarthquakeSchema = require('./schemas/earthquakeSchema.js')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var earthquakes = require('./routes/earthquakes');
 
 var app = express();
 
@@ -31,6 +34,7 @@ app.use(express.static(root));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/earthquakes', earthquakes)
 
 app.use(fallback('index.html', { root: root }))
 

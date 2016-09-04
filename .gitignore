@@ -3,3 +3,6 @@ dist
 bower_components
 .tmp
 .publish/
+*.iml
+.fnmrc
+**/.tern-port
