@@ -1,0 +1,58 @@
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+window.MyBehaviors.HurricanesBehavior = {
+
+  properties: {
+    geoJson: {
+      type: Object
+    }
+  },
+
+  listeners: {
+    'signals.iron-signal-hurricanes-changed': 'tryToPresentHurricanes',
+    'signals.iron-signal-map-ready': 'tryToPresentHurricanes'
+  },
+
+  tryToPresentHurricanes: function() {
+    if (this.get('map')) {
+      if (this.get('geoJson')) {
+        this.get('map').removeLayer(this.get('geoJson'));
+      }
+      var hurricanes = this.$.meta.byKey('hurricanes')
+      if (!_.isEmpty(hurricanes)) {
+        this.set('geoJson', L.geoJson(hurricanes, {
+          pointToLayer: function(geo, latlng) {
+            return L.circle(latlng, 2);
+          },
+          style: function (feature) {
+            var obj = {}
+            if (feature.geometry.type === 'Polygon') {
+              obj.color = 'orange';
+              obj.weight = 2;
+            }
+            if (feature.geometry.type === 'LineString') {
+              obj.weight = 3;
+              obj.color = 'blue';
+            }
+            if (feature.geometry.type === 'Point') {
+              obj.weight = 3;
+              obj.color = 'grey';
+            }
+            if (feature.properties.description) {
+              if (feature.properties.description === 'Forecast Track Point') {
+                obj.color = 'red';
+                obj.weight = 5;
+              }
+              if (feature.properties.description === 'Past Track Point') {
+                obj.color = 'grey';
+              }
+            }
+            return obj;
+          }
+        }));
+        this.get('map').addLayer(this.get('geoJson'));
+      }
+    }
+  }
+};
+</script>
