@@ -83,7 +83,69 @@ function find (req, res, next) {
     if (err) {
       return console.error(err)
     }
-    console.log(earthquakes)
-    res.status(200).json(earthquakes)
+    console.log(earthquakes.length)
+    let desaster = earthquakes[60]
+    let porturl = `https://o6pqu2jl1a.execute-api.eu-central-1.amazonaws.com/v1/ports_in_area?lrlat=${desaster.latitude + 2}&lrlon=${desaster.longitude + 2}&ullat=${desaster.latitude - 2}&ullon=${desaster.longitude - 2}&zoomlevel=5`
+    let portOption = {
+      method: 'get',
+      url: porturl
+    }
+    request(portOption, function (err, response, body) {
+      let bodyJSON = JSON.parse(body)
+      if (bodyJSON.size !== 0) {
+        // FIXME just take the nearest port for now
+        // and request all vessels in this port
+        let locode = bodyJSON.ports[0].locode
+        let vesselOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: '944592e3-bbd2-494b-9c41-e257511dba5d',
+            Accept: 'application/json'
+          },
+          url: `https://api.vesseltracker.com/api/v1/ports/expected?locode=${locode}`
+        }
+        request(vesselOptions, function (error, response, body) {
+          let allVessels = JSON.parse(body).vessels
+          let affectedVessels = allVessels.map((cur, i, array) => ({
+            'name': cur.aisStatic.name, 'imo': cur.aisStatic.imo, 'port': cur.geoDetails.currentPort
+          }))
+          res.status(200).json(affectedVessels)
+        })
+      }
+    })
+    //earthquakes.forEach((desaster, i, array) => {
+      //// for every earthquake we want to query the port in the area
+      //// for this, we add 2° to location for our north-east border and
+      //// substract 2° from location for our south-west border
+      //let porturl = `https://o6pqu2jl1a.execute-api.eu-central-1.amazonaws.com/v1/ports_in_area?lrlat=${desaster.latitude + 2}&lrlon=${desaster.longitude + 2}&ullat=${desaster.latitude - 2}&ullon=${desaster.longitude - 2}&zoomlevel=2`
+      //let portOptions = {
+        //method: 'get',
+        //url: porturl
+      //}
+      //console.log(portOptions)
+      //request(portOptions, function (err, response, body) {
+        //if (err) {
+          //console.log(err)
+        //} else {
+          //// now get the name of the port and request all the vessels
+          //console.log(`Nearest port: ${body.ports[0].locode}`)
+          //let vesselOptions = {
+            //method: 'GET',
+            //headers: {
+              //Authorization: '944592e3-bbd2-494b-9c41-e257511dba5d',
+              //Accept: 'application/json'
+            //},
+            //url: `https://api.vesseltracker.com/api/v1/ports/expected?locode=${response.ports[0].locode}`
+          //}
+            //request(vesselOptions, function (error, response, body) {
+              //let affectedVessels = body.vessels.map((cur, i, array) => ({
+                //'name': cur.aisStatic.name, 'imo': cur.aisStatic.imo, 'port': cur.geoDetails.currentPort
+              //}))
+              //res.status(200).json(affectedVessels)
+            //})
+        //}
+      //})
+    //})
+    //res.status(200).json(earthquakes)
   })
 }
