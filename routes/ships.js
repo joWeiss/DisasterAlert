@@ -34,7 +34,9 @@ function collectDailyEqs () {
 // TODO get a better place for this
 dailyEarthquakesJob.start();
 
-router.get('/', find);
+router.get('/earthquakes', findEarthquakeAffected);
+
+router.get('/hurricanes', findHurricaneAffected)
 
 router.get('/_update', function (req, res) {
   let options = {
@@ -135,7 +137,33 @@ let getEarthquakes = function (cb) {
   });
 };
 
-function find (req, res, next) {
+let getHurricanes = function (cb) {
+  let options = {
+    uri:    'http://localhost:5000/api/hurricanes',
+    method: 'GET'
+  };
+  request(options, function (error, response, body) {
+    if (!error && response) {
+      //res.status(response.statusCode).send(body.substring('var hurr_warn = '.length));
+      //
+      console.log(body)
+      cb(null, body)
+    } else {
+      res.status(500).send(error);
+    }
+  });
+}
+
+function findHurricaneAffected (req, res, next) {
+  async.waterfall([
+                  getHurricanes,
+                  getPort
+  ], (err, results) => {
+    res.status(200).send(results)
+  })
+}
+
+function findEarthquakeAffected (req, res, next) {
   async.waterfall([
     getEarthquakes,
     getPort

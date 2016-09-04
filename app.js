@@ -8,9 +8,10 @@ var fallback = require('express-history-api-fallback');
 require('./database.js')
 require('./schemas/earthquakeSchema.js')
 
-var earthquakedShips = require('./routes/ships-affected-by-earthquakes');
 var hurricanes = require('./routes/hurricanes');
 var earthquakes = require('./routes/earthquakes')
+//var ships = require('./routes/ships')
+var earthquakedShips = require('./routes/ships');
 
 var app = express();
 
@@ -33,8 +34,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static(root));
 
 app.use('/api/hurricanes', hurricanes);
-app.use('/api/ships-affected-by-earthquakes', earthquakedShips);
+app.use('/api/ships', earthquakedShips);
 app.use('/api/earthquakes', earthquakes)
+//app.use('/api/ships', ships)
 
 app.use(fallback('index.html', { root: root }))
 
