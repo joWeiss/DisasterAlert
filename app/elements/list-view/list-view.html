@@ -1,0 +1,81 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+
+<dom-module id="list-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+      }
+      #grid {
+        height: 100%;
+      }
+    </style>
+
+    <vaadin-grid id="grid">
+      <table>
+        <colgroup>
+          <col name="number" width="80"/>
+          <col name="firstName"/>
+          <col name="lastName"/>
+          <col name="email"/>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+        </tr>
+        </thead>
+      </table>
+    </vaadin-grid>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    function getJSON(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          callback(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.open('GET', url, true);
+      xhr.send();
+    }
+
+    Polymer({
+      is: 'list-view',
+
+      attached: function() {
+        this.async(function() {
+          this.$.grid.columns[0].renderer = function(cell) {
+            cell.element.textContent = cell.row.index;
+          };
+
+          this.$.grid.items = function(params, callback) {
+            getJSON('https://demo.vaadin.com/demo-data/1.0/people?index=' + params.index + '&count=' + params.count, function(json) {
+              callback(json.result, json.size);
+            });
+          };
+
+        }, 50, this);
+      }
+    });
+  })();
+  </script>
+</dom-module>

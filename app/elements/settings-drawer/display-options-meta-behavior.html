@@ -1,0 +1,43 @@
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+window.MyBehaviors.DisplayOptionsMetaBehavior = {
+  properties: {
+    visible: {
+      type: Boolean,
+      notify: true,
+      value: false,
+      observer: '_onToggle'
+    },
+    items: {
+      type: Array,
+      value: [],
+      notify: true
+    }
+  },
+
+
+  _onToggle: function() {
+    if (this.get('visible')) {
+      this._tryToUpdate();
+    } else {
+      this._delete();
+    }
+  },
+
+  _tryToUpdate: function() {
+    this.debounce('update-' + this.get('name') + 's', function() {
+      this.$.ajax.generateRequest();
+    }, 750, this);
+  },
+
+  _onResponseError: function() {
+    this._delete();
+    this.fire('show-toast', {message: 'Couldn\'t load ' + this.get('name') + 's data.'});
+  },
+
+  _delete: function() {
+    this.set('items', []);
+    this.fire('iron-signal', {name: this.get('name') + 's-changed'});
+  }
+};
+</script>

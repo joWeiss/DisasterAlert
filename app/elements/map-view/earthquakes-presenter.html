@@ -1,0 +1,83 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-meta/iron-meta.html">
+<link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
+
+<dom-module id="earthquakes-presenter">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <iron-meta id="meta"></iron-meta>
+    <iron-signals id="signals"></iron-signals>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'earthquakes-presenter',
+
+      properties: {
+        map: {
+          type: Object
+        },
+        markers: {
+          type: Array
+        }
+      },
+
+      listeners: {
+        'signals.iron-signal-earthquakes-changed': 'tryToPresent',
+        'signals.iron-signal-map-ready': 'tryToPresent'
+      },
+
+      tryToPresent: function() {
+        if (this.get('map')) {
+          _.each(this.get('markers'), function(marker) {
+            this.get('map').removeLayer(marker);
+          }, this);
+          this.set('markers', _.map(this.$.meta.byKey('earthquakes'), function(earthquake) {
+            return L.circleMarker(
+              [earthquake.latitude, earthquake.longitude],
+              {
+                color: '#D32F2F',
+                fillColor: '#F44336',
+                fillOpacity: 0.8,
+                radius: earthquake.magnitude * 2,
+                title: earthquake.title,
+                alt: earthquake.title,
+                riseOnHover: true,
+                originalObject: earthquake
+              }
+            );
+          }, this));
+          var that = this;
+          _.each(this.get('markers'), function(marker) {
+            marker.on('click', function(event) {
+              that.fire('iron-signal', {
+                name: 'show-earthquake-info-dialog',
+                data: {earthquake: this.options.originalObject}
+              });
+            });
+            this.get('map').addLayer(marker);
+          }, this);
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

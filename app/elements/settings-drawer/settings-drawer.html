@@ -1,0 +1,61 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="earthquakes-meta.html">
+<link rel="import" href="hurricanes-meta.html">
+
+<dom-module id="settings-drawer">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding-right: 16px;
+        padding-left: 16px;
+      }
+      paper-toggle-button {
+        padding-bottom: 8px;
+      }
+    </style>
+    <earthquakes-meta visible="[[earthquakes]]"></earthquakes-meta>
+    <hurricanes-meta visible="[[hurricanes]]"></hurricanes-meta>
+    <paper-toggle-button name="Earthquakes" checked="{{earthquakes}}">Earthquakes</paper-toggle-button>
+    <paper-toggle-button name="Hurricanes" checked="{{hurricanes}}">Hurricanes</paper-toggle-button>
+    <paper-toggle-button name="Tsunami" checked="{{tsunami}}">Tsunami</paper-toggle-button>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'settings-drawer',
+
+      properties: {
+        earthquakes: {
+          type: Boolean,
+          value: true,
+          notify: true
+        },
+        hurricanes: {
+          type: Boolean,
+          value: true,
+          notify: true
+        },
+        tsunami: {
+          type: Boolean,
+          value: true,
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

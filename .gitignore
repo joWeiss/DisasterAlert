@@ -1,7 +1,8 @@
 node_modules
+dist
 bower_components
-build
-!bin/
 .tmp
 .publish/
 *.iml
+.fnmrc
+**/.tern-port
