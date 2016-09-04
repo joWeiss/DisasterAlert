@@ -10,6 +10,7 @@ require('./schemas/earthquakeSchema.js')
 
 var earthquakedShips = require('./routes/ships-affected-by-earthquakes');
 var hurricanes = require('./routes/hurricanes');
+var earthquakes = require('./routes/earthquakes')
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(root));
 
 app.use('/api/hurricanes', hurricanes);
 app.use('/api/ships-affected-by-earthquakes', earthquakedShips);
+app.use('/api/earthquakes', earthquakes)
 
 app.use(fallback('index.html', { root: root }))
 
