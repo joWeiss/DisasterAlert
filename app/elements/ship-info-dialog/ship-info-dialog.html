@@ -12,8 +12,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
 
-<dom-module id="earthquake-info-dialog">
+<dom-module id="ship-info-dialog">
   <template>
     <style>
       :host {
@@ -24,6 +25,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       h2 {
         white-space: normal;
       }
+      iron-image {
+        width: 300px;
+        height: 300px;
+      }
       h4 {
         margin-top: 4px;
         margin-bottom: 4px;
@@ -31,52 +36,59 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <paper-dialog id="dialog" auto-fit-on-attach>
-      <h2>[[earthquake.title]]</h2>
+      <h2>[[ship.name]]</h2>
       <div>
-        <div><h4>[[displayCoordinates(earthquake)]]</h4></div>
-        <div><h4>[[displayDate(earthquake)]]</h4></div>
-        <div><h4>Magnitude:</h4> [[earthquake.magnitude]]</div>
-        <div><h4>Depth:</h4> [[earthquake.depth]]</div>
+        <iron-image
+          id="shipImage"
+          alt="ship"
+          preload
+          sizing="contain"
+          placeholder="./images/ship-placeholder.jpg">
+        </iron-image>
+        <div><h4>[[ship.coordinates]]</h4></div>
+        <div><h4>Type:</h4> [[ship.shipType]]</div>
+        <div><h4>Dimensions:</h4> [[ship.dimensions]]</div>
+        <div><h4>Destination port:</h4> [[ship.destination]]</div>
+        <div><h4>Destination locode:</h4> [[ship.destinationLocode]]</div>
+        <div><h4>Destination country:</h4> [[ship.destinationCountry]]</div>
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
       </div>
     </paper-dialog>
     <iron-signals id="signals"></iron-signals>
-
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'earthquake-info-dialog',
+      is: 'ship-info-dialog',
 
       properties: {
-        earthquake: {
+        ship: {
           type: Object,
           notify: true
+        },
+        load: {
+          type: Boolean,
+          value: false
         }
       },
       listeners: {
-        'signals.iron-signal-show-earthquake-info-dialog': 'onOpenSignal'
+        'signals.iron-signal-show-ship-info-dialog': 'onOpenSignal'
       },
 
       attached: function() {
-        this.$.dialog.fitInto = document.getElementById('map');
+        this.$.dialog.fitInto = document.getElementById('contentContainer');
       },
 
       onOpenSignal: function(event) {
-        this.set('earthquake', event.detail.earthquake);
+        this.set('ship', event.detail.ship);
+        this.$.shipImage.src =
+          'https://images.vesseltracker.com/images/vessels/midres/' +
+          this.get('ship.imo') +'.jpg';
         this.$.dialog.open()
-      },
-
-      displayCoordinates: function(earthquake) {
-        return _.coordinatesToHumanReadable(earthquake);
-      },
-
-      displayDate: function(earthquake) {
-        return moment(earthquake.time, 'x').format('D.M.YYYY HH:mm') + ' [UTC]';
       }
     });
   })();

@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <iron-ajax id="ajax"
                handle-as="json"
-               url="/earthquakes.json"
+               url="/api/earthquakes"
                on-response="_onResponseSuccess"
                on-error="_onResponseError"
                debounce-duration="300"></iron-ajax>
@@ -43,11 +43,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onResponseSuccess: function(event) {
-        if (!event.detail.response || !event.detail.response.earthquakes) {
+        if (!event.detail.response || !event.detail.response) {
           this._delete();
-          this.fire('show-toast', {message: 'Couldn\'t load ' + this.get('name') + 's data.'});
+          this.fire('iron-signal', {
+            name: 'show-toast',
+            data: {message: 'Couldn\'t load ' + this.get('name') + 's data.'}
+          });
         } else {
-          this._update(event.detail.response.earthquakes);
+          this._update(event.detail.response);
         }
       },
 

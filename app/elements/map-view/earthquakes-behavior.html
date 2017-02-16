@@ -1,0 +1,49 @@
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+window.MyBehaviors.EarthquakesBehavior = {
+
+  properties: {
+    markers: {
+      type: Array
+    }
+  },
+
+  listeners: {
+    'signals.iron-signal-earthquakes-changed': 'tryToPresentEarthquakes',
+    'signals.iron-signal-map-ready': 'tryToPresentEarthquakes'
+  },
+
+  tryToPresentEarthquakes: function() {
+    if (this.get('map')) {
+      _.each(this.get('markers'), function(marker) {
+        this.get('map').removeLayer(marker);
+      }, this);
+      this.set('markers', _.map(this.$.meta.byKey('earthquakes'), function(earthquake) {
+        return L.circleMarker(
+          [earthquake.latitude, earthquake.longitude],
+          {
+            color: '#D32F2F',
+            fillColor: '#F44336',
+            fillOpacity: 0.8,
+            radius: earthquake.magnitude * 2,
+            title: earthquake.title,
+            alt: earthquake.title,
+            riseOnHover: true,
+            originalObject: earthquake
+          }
+        );
+      }, this));
+      var that = this;
+      _.each(this.get('markers'), function(marker) {
+        marker.on('click', function(event) {
+          that.fire('iron-signal', {
+            name: 'show-earthquake-info-dialog',
+            data: {earthquake: this.options.originalObject}
+          });
+        });
+        this.get('map').addLayer(marker);
+      }, this);
+    }
+  }
+};
+</script>

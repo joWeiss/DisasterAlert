@@ -9,8 +9,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="earthquakes-presenter.html">
-<link rel="import" href="hurricanes-presenter.html">
+<link rel="import" href="earthquakes-behavior.html">
+<link rel="import" href="hurricanes-behavior.html">
+<link rel="import" href="../earthquake-info-dialog/earthquake-info-dialog.html">
+<link rel="import" href="../../bower_components/iron-meta/iron-meta.html">
+<link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
 
 <dom-module id="map-view">
   <template>
@@ -26,9 +29,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div id="map"></div>
-    <earthquakes-presenter map="[[map]]"></earthquakes-presenter>
-    <hurricanes-presenter map="[[map]]"></hurricanes-presenter>
     <earthquake-info-dialog></earthquake-info-dialog>
+    <iron-meta id="meta"></iron-meta>
+    <iron-signals id="signals"></iron-signals>
   </template>
   <script>
   (function() {
@@ -36,6 +39,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
       is: 'map-view',
+
+      behaviors: [
+        window.MyBehaviors.HurricanesBehavior,
+        window.MyBehaviors.EarthquakesBehavior
+      ],
 
       properties: {
         map: {

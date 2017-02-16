@@ -60,8 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-route
         route="{{route}}"
         pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+        data="{{routeData}}"></app-route>
 
     <app-drawer-layout fullbleed>
       <app-drawer>
@@ -127,7 +126,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (this.get('page') === 'map') {
             this.$.mapView.visible();
           } else if (this.get('page') === 'list') {
-            // this.$.listView.load();
+            this.$.listView.visible();
           }
         }, 50, this);
       },

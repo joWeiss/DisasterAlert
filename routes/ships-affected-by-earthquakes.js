@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request')
 var async = require('async');
+var moment = require('moment');
 var _ = require('lodash');
 
 var CronJob = require('cron').CronJob;
@@ -101,8 +102,9 @@ let getPort = function (disasterList, cb) {
             Authorization: '944592e3-bbd2-494b-9c41-e257511dba5d',
             Accept: 'application/json'
           },
-          url: `https://api.vesseltracker.com/api/v1/ports/expected?locode=${locode}`
+          url: `https://api.vesseltracker.com/api/v1/ports/expected?locode=${locode}&maxEta=${moment().add(12, 'hours').format('YYYY-MM-DDTHH:mm:ss')}Z`
         };
+        console.log(vesselOptions.url);
         request(vesselOptions, function (error, response, bodyString) {
           if (error) {
             console.error(error);
@@ -112,7 +114,18 @@ let getPort = function (disasterList, cb) {
           if (body.numberOfResults !== 0 && !_.isEmpty(body.vessels)) {
             let allVessels = body.vessels;
             let affectedVessels = allVessels.map((cur, i, array) => ({
-              'name': cur.aisStatic.name, 'imo': cur.aisStatic.imo, 'port': cur.geoDetails.currentPort
+              'name': cur.aisStatic.name,
+              'imo': cur.aisStatic.imo,
+              'length': cur.aisStatic.length,
+              'width': cur.aisStatic.width,
+              'shipType': cur.aisStatic.aisShiptype,
+              'eta': cur.voyageDetails.calculatedEta,
+              'destination': cur.voyageDetails.destination,
+              'destinationCountry': cur.voyageDetails.portCountry,
+              'destinationLocode': cur.voyageDetails.locode,
+              'latitude': cur.aisPosition.lat,
+              'longitude': cur.aisPosition.lon,
+              'currentPort': cur.geoDetails.currentPort
             }));
             // we collected all vessels for a port, return to our outer control flow
             memo = memo.concat(affectedVessels);
